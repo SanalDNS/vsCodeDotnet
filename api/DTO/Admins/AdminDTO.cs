@@ -1,4 +1,4 @@
-namespace api.DTO{
+namespace api.DTO.Admins{
 
 
     // in this we dont want to get the id of admins

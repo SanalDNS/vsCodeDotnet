@@ -1,6 +1,7 @@
 using api.Data;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using api.DTO.Admins;
 
 namespace api.Controllers{
 [Route("api/admin")]   //This attribute defines the base route for this controller, meaning all routes in this controller will start with /api/admin.
@@ -49,15 +50,15 @@ public IActionResult getAdminById([FromRoute] int id){   // it extracts the id f
 [HttpPost("AddAdmin")]
 public IActionResult AddAdmin([FromBody] CreateAdminDtoRequest admin)// here we are taking data from the formbody,  which is then passed to dto to get only required data that is to be saved.
 {
-    if (admin == null)
-    {
-        return BadRequest("Admin data is null.");
-    }
+  var Adm =admin.ToAdminFromCreateDto();
 //the below methodes are given in entity frmk
-    _context.Admins.Add(admin);
+    _context.Admins.Add(Adm);
     _context.SaveChanges();
 
-    return CreatedAtAction(nameof(GetAdminById), new { id = admin.Id }, admin);
+       var admins = _context.Admins.ToList()    // after saving we are retriving all the avaliable admins
+        .Select(s => s.ToAdminDto());
+
+    return Ok(admins);
 }
 
 
