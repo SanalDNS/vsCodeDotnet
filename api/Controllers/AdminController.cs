@@ -44,17 +44,16 @@ public IActionResult getAdminById([FromRoute] int id){   // it extracts the id f
 
 
 
-//DTO=> data transfer object
+//DTO=> data transfer object, used to remove unwanted datas before sending to the user
 
 [HttpPost("AddAdmin")]
-public IActionResult AddAdmin([FromBody] CreateAdminDtoRequest admin)
+public IActionResult AddAdmin([FromBody] CreateAdminDtoRequest admin)// here we are taking data from the formbody,  which is then passed to dto to get only required data that is to be saved.
 {
     if (admin == null)
     {
         return BadRequest("Admin data is null.");
     }
-
-    // Assuming _context is your DbContext
+//the below methodes are given in entity frmk
     _context.Admins.Add(admin);
     _context.SaveChanges();
 
