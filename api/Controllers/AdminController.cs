@@ -1,4 +1,5 @@
 using api.Data;
+using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers{
@@ -17,7 +18,10 @@ namespace api.Controllers{
 [HttpGet ("getAdmin")] // call the methode inside the route, inorder to include it in url
 //https://api.example.com/api/admin/getAdmin
 public IActionResult getAdmin(){ //When a client sends a request to https://api.example.com/api/admin/getAdmin, ASP.NET Core will intercept this request, route it to the AdminController, and then execute the getAdmin() method based on the [HttpGet] attribute.
-    var admins =_context.Admins.ToList(); //we are searching it in the database and then returning a list.
+    var admins =_context.Admins.ToList() //we are searching it in the database and then returning a list.
+   .Select(s =>s.ToAdminDto());
+   
+   
     return Ok(admins);
 }
 
@@ -34,7 +38,7 @@ public IActionResult getAdminById([FromRoute] int id){   // it extracts the id f
         return NotFound();  // the IActionResult will return it approprately
     }
     else{
-        return Ok(admin);
+        return Ok(admin.ToAdminDto()); // here we are directly calling the mapper
     }
 }
 
@@ -43,7 +47,7 @@ public IActionResult getAdminById([FromRoute] int id){   // it extracts the id f
 //DTO=> data transfer object
 
 [HttpPost("AddAdmin")]
-public IActionResult AddAdmin([FromBody] Admin admin)
+public IActionResult AddAdmin([FromBody] CreateAdminDtoRequest admin)
 {
     if (admin == null)
     {
