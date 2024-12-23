@@ -6,7 +6,7 @@ using api.Model;
 
 namespace api.Controllers
 {
-     [Route("api/category")]   //This attribute defines the base route for this controller, meaning all routes in this controller will start with /api/admin.
+    [Route("api/category")]   //This attribute defines the base route for this controller, meaning all routes in this controller will start with /api/admin.
     [ApiController]
     public class CategoryController : ControllerBase
     {
@@ -38,7 +38,18 @@ namespace api.Controllers
             //newCategor: This is the variable name for the instance of the Admin class that will hold the incoming data.
             _context.Categories.Add(newCategor);
             _context.SaveChanges();
-             return Ok(new { Message = "Category added successfully", Category = newCategor });
+            return Ok(new { Message = "Category added successfully", Category = newCategor });
+        }
+
+
+        [HttpDelete("DeleteCategory/{id}")]
+
+        public IActionResult DeleteCategory(int id)
+        {
+            var categ = _context.Categories.Find(id);
+            _context.Categories.Remove(categ);
+            _context.SaveChanges();
+            return NoContent();
         }
 
     }
