@@ -29,12 +29,12 @@ namespace api.Controllers
 
         public IActionResult GetMenuItems()
         {
-            // var menuItem = _context.Menuitems.ToList().Select(s => s.ToMenuItemDTO());
-            // // the TocategoryDTO is a mapper methode in mapper folder.
-            // return Ok(menuItem);
+            var menuItem = _context.Menuitems.ToList().Select(s => s.ToMenuItemDTO());
+            // the TocategoryDTO is a mapper methode in mapper folder.
+            return Ok(menuItem);
 
-            var menuItem = _context.Menuitems.ToList();
-return Ok(menuItem);
+            // var menuItem = _context.Menuitems.ToList();
+            // return Ok(menuItem);
         }
 
 

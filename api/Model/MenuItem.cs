@@ -9,7 +9,7 @@ namespace api.Model{
          // Foreign key
         public int CategoryId { get; set; }
 
-        // Navigation property
-        public Category Category { get; set; }
+      // Navigation property (make it virtual for lazy loading)
+        public virtual Category Category { get; set; }  // Mark this as virtual
     }
 }

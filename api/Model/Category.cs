@@ -6,7 +6,7 @@ namespace api.Model{
         public string CategoryName {get;set;}=string.Empty;
  // Navigation property
   [JsonIgnore]
-        public List<Menuitem> Menuitems { get; set; } = new List<Menuitem>();
+  public virtual List<Menuitem> Menuitems { get; set; } = new List<Menuitem>();  // Mark this as virtual
 
     }
 }
