@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using api.Model;
 using api.Data;
 using api.menuItemMapper;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace api.Controllers
 {
@@ -47,6 +49,7 @@ namespace api.Controllers
                                       .FirstOrDefault(c => c.CategoryName == (newMenuitem.Category != null ? newMenuitem.Category.CategoryName : null));
 
             newMenuitem.CategoryId = category.Id;
+             newMenuitem.Category = null; 
             _context.Menuitems.Add(newMenuitem);
             _context.SaveChanges();
             return Ok(new { Message = "Item added successfully", Menuitem = newMenuitem });
