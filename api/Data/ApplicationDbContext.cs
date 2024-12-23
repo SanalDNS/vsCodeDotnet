@@ -11,6 +11,6 @@ namespace api.Data{
         public DbSet<Admin> Admins {get; set;}
         public DbSet<Category>Categories{get;set;}
 
-        public DbSet<Menuitem>menuitems{get;set;}
+        public DbSet<Menuitem>Menuitems{get;set;} // this is being used in controllers
     }
 }
