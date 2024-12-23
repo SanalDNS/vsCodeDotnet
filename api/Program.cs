@@ -5,8 +5,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
-builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -17,9 +16,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddDbContext<ApplicationDbContext>(Options =>{
-Options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection"));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection"));
 });
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        policy => policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
+// Add services to the container
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -33,6 +45,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseCors("AllowLocalhost"); // Enable CORS with the policy
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
