@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//In .NET, starting with .NET 6, Microsoft introduced a feature called top-level statements. This feature simplifies the entry point of the application by removing the need for the explicit Main method or Program class in simple console applications.
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
