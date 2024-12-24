@@ -19,7 +19,7 @@ namespace api.Controllers
 
 
         // http methodes starts from here
-//right below is the synchronous way of writing the code.
+        //right below is the synchronous way of writing the code.
         // [HttpGet("getAdmin")] // call the methode inside the route, inorder to include it in url
         //                       //https://api.example.com/api/admin/getAdmin
         // public IActionResult getAdmin()
@@ -34,16 +34,16 @@ namespace api.Controllers
         //IAction is a object which return s stats codes etc
 
 
-[HttpGet("getAdmin")]
-public async Task<IActionResult> getAdmin()
-{
-    // Fetch the admins asynchronously from the database
-    var admins = await _context.Admins
-        .Select(s => s.ToAdminDto())
-        .ToListAsync();
+        [HttpGet("GetAdmin")]
+        public async Task<IActionResult> GetAdmin()
+        {
+            // Fetch the admins asynchronously from the database
+            var admins = await _context.Admins
+                .Select(s => s.ToAdminDto())
+                .ToListAsync();
 
-    return Ok(admins); // Return the result as an HTTP 200 response
-}
+            return Ok(admins); // Return the result as an HTTP 200 response
+        }
 
 
 
@@ -55,9 +55,9 @@ public async Task<IActionResult> getAdmin()
 
         [HttpGet("{id}")]
 
-        public IActionResult getAdminById([FromRoute] int id)
+        public async Task<IActionResult> GetAdminById([FromRoute] int id)
         {   // it extracts the id from the route, then puts it in the int id,
-            var admin = _context.Admins.Find(id); // here we are finding the exact id in the database and returnig it
+            var admin = await _context.Admins.FindAsync(id); // here we are finding the exact id in the database and returnig it
             if (admin == null)
             {
                 return NotFound();  // the IActionResult will return it approprately
@@ -73,15 +73,20 @@ public async Task<IActionResult> getAdmin()
         //DTO=> data transfer object, used to remove unwanted datas before sending to the user
 
         [HttpPost("AddAdmin")]
-        public IActionResult AddAdmin([FromBody] CreateAdminDtoRequest admin)// here we are taking data from the formbody,  which is then passed to dto to get only required data that is to be saved.
+        public async Task<IActionResult> AddAdmin([FromBody] CreateAdminDtoRequest admin)// here we are taking data from the formbody,  which is then passed to dto to get only required data that is to be saved.
         {
             var Adm = admin.ToAdminFromCreateDto();
             //the below methodes are given in entity frmk
             _context.Admins.Add(Adm);
-            _context.SaveChanges();
+            // Save changes asynchronously
+            await _context.SaveChangesAsync();
 
-            var admins = _context.Admins.ToList()    // after saving we are retriving all the avaliable admins
-             .Select(s => s.ToAdminDto());
+            // var admins = _context.Admins.ToList()    // after saving we are retriving all the avaliable admins
+            //  .Select(s => s.ToAdminDto());
+
+            var admins = await _context.Admins
+       .Select(s => s.ToAdminDto())
+       .ToListAsync();
 
             return Ok(admins);
         }
