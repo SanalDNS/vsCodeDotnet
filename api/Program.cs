@@ -1,4 +1,4 @@
-using api.Data;
+using api.Data; // this imports the databasecontext;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
